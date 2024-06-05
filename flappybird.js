@@ -58,6 +58,10 @@ window.onload = function () {
     // Adjust canvas size based on window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    // Add touch event listeners
+    document.addEventListener("touchstart", handleTouchStart);
+    document.addEventListener("touchend", handleTouchEnd);
 };
 
 function startGame() {
@@ -209,19 +213,49 @@ function placePipes() {
 function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
         // Jump
-        velocityY = -5;
-
-        // Reset game
-        if (gameOver) {
-            bird.y = birdY;
-            pipeArray = [];
-            score = 0;
-            pipesPassed = 0;
-            cake = null;
-            gameOver = false;
-        }
+        jump();
     }
 }
+
+function handleTouchStart(event) {
+    // Prevent default touch behavior
+    event.preventDefault();
+    
+    // Jump when touch starts
+    jump();
+}
+
+function handleTouchEnd(event) {
+    // Prevent default touch behavior
+    event.preventDefault();
+
+    // Reset game if it's over
+    if (gameOver) {
+        resetGame();
+    }
+}
+
+function jump() {
+    // Jump
+    velocityY = -5;
+
+    // Reset game if it's over
+    if (gameOver) {
+        resetGame();
+    }
+}
+
+function resetGame() {
+    // Reset game variables
+    bird.y = birdY;
+    pipeArray = [];
+    score = 0;
+    pipesPassed = 0;
+    cake = null;
+    gameOver = false;
+}
+
+
 
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&
