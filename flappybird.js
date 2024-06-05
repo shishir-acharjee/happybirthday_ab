@@ -60,8 +60,8 @@ window.onload = function () {
     canvas.height = window.innerHeight;
 
     // Add touch event listeners
-    document.addEventListener("touchstart", handleTouchStart);
-    document.addEventListener("touchend", handleTouchEnd);
+    canvas.addEventListener("touchstart", handleTouchStart);
+    canvas.addEventListener("touchend", handleTouchEnd);
 };
 
 function startGame() {
@@ -92,7 +92,6 @@ function startGame() {
     requestAnimationFrame(update);
     setInterval(placePipes, 1500); // Place pipes every 1.5 seconds
     document.addEventListener("keydown", moveBird);
-    document.addEventListener('touchstart', moveBird);
 
     // Reset game variables
     bird.y = birdY;
@@ -212,7 +211,7 @@ function placePipes() {
 }
 
 function moveBird(e) {
-    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX"||event.type === "touchstart") {
+    if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
         // Jump
         jump();
     }
@@ -252,15 +251,14 @@ function resetGame() {
     pipeArray = [];
     score = 0;
     pipesPassed = 0;
+   
     cake = null;
     gameOver = false;
-}
-
-
-
-function detectCollision(a, b) {
+    }
+    
+    function detectCollision(a, b) {
     return a.x < b.x + b.width &&
-        a.x + a.width > b.x &&
-        a.y < b.y + b.height &&
-        a.y + a.height > b.y;
-}
+    a.x + a.width > b.x &&
+    a.y < b.y + b.height &&
+    a.y + a.height > b.y;
+    }
